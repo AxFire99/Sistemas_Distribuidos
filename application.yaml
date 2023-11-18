@@ -1,24 +1,4 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: myapp-argo-application-project2
-  namespace: argocd
-spec:
-  project: default
-
-  source:
-    repoURL: https://github.com/AxFire99/Sistemas_Distribuidos.git
-    targetRevision: HEAD
-    path: k8s-configuration
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: sge
-
-  syncPolicy:
-    syncOptions:
-    - CreateNamespace=true
-    - FailOnSharedResource=true
-
-    automated:
-      selfHeal: true
-      prune: true
+  name: 

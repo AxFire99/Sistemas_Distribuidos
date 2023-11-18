@@ -6,4 +6,3 @@ ADD . /app
 WORKDIR /app
 EXPOSE 8000
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "djangokubernetesproject.wsgi"]
-
