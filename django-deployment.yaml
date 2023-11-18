@@ -15,9 +15,8 @@ spec:
         app: django
     spec:
       containers:
-        - image: lokemis/sdnotification:latest
+        - image: oni672/sdproject2023:latest
           name: django
           ports:
             - containerPort: 8000
               name: gunicorn
-
