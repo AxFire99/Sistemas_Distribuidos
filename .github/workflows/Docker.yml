@@ -34,8 +34,13 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
+      - name: Debug
+        run: |
+          docker --version
+          cat $HOME/.docker/config.json
+          docker images
       - name: Save Docker image as artifact
-        run: docker save -o docker-image.tar "lokemis/clockbox:${{ github.run_number }}"
+        run: docker save -o docker-image.tar "lokemis/clockbox:${{ github.run_number }}" && docker load -i docker-image.tar
 
   test:
     name: Test Django Application
