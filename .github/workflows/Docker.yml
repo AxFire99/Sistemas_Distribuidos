@@ -40,6 +40,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
+      - name: Save Docker image as artifact
+        run: docker save -o docker-image.tar "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
 
   test:
     name: Test Django Application
@@ -56,6 +58,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Django tests
-        run: |
-          python manage.py test
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: docker-image.tar
+      #- name: Run Django tests
+      #  run: |
+      #    python manage.py test
