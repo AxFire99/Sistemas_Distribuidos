@@ -41,9 +41,10 @@ jobs:
           push: true
           tags: "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
       - name: Debug - Print Environment
-        run: env
-      - name: Save Docker image as artifact
-        run: docker save -o docker-image.tar "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
+        run: |
+          echo "Docker image reference: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
+      #- name: Save Docker image as artifact
+      #  run: docker save -o docker-image.tar "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
 
   test:
     name: Test Django Application
