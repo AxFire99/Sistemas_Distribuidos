@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
- <!-- Required meta tags -->
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <!-- Bootstrap CSS -->
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-   <title>Index</title>
-</head>
-<body>
-    <div class="container-fluid p-2 bg-primary text-white text-center">
-        <h1>Welcome to our Page</h1>
-    </div>
-<div><a href="{% url 'admin:index' %}">Admin Area</a></div>
-<div><a href="{% url 'select_user' %}">Notify a User</a></div>
-<div><a href="{% url 'users' %}">View the current users</a></div>
 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Index</title>
+</head>
+
+<body>
+    <div class="w3-bar-block">
+        <div class="w3-container w3-margin w3-padding-small">
+            <h1>Welcome to our Page</h1>
+        </div>
+        <div class="w3-container w3-margin w3-cell">
+            <div class="w3-panel w3-leftbar w3-border-white w3-hover-border-green w3-padding-small">
+                <div><i class="fa fa-key w3-xlarge"></i></div><a href="{% url 'admin:index' %}"
+                    class="w3-btn w3-blue">Admin Area</a>
+            </div>
+            <div class="w3-panel w3-leftbar w3-border-white w3-hover-border-green w3-padding-small">
+                <div><i class="fa fa-male w3-xlarge"></i></div><a href="{% url 'select_user' %}"
+                    class="w3-btn w3-blue">Notify a User</a>
+            </div>
+            <div class="w3-panel w3-leftbar w3-border-white w3-hover-border-green w3-padding-small">
+                <div><i class="fa fa-address-book-o w3-xlarge"></i></div><a href="{% url 'users' %}"
+                    class="w3-btn w3-blue">View the current users</a>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

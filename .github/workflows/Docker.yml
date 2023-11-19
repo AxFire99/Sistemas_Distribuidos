@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "main"
-      - "Oni67-patch-1"
 
 jobs:
   build:

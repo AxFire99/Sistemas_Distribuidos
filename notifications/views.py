@@ -1,7 +1,6 @@
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.contrib.auth.models import User
-#import requests
 from django.http import HttpResponse
 # notifications/views.py
 from django.contrib.auth.models import User
