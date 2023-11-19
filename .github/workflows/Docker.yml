@@ -53,11 +53,13 @@ jobs:
           pip install -r requirements.txt
       - name: Pull Docker image
         run: docker pull "lokemis/clockbox:${{ github.run_number }}"
+      - name: Save Docker image details
+        run: docker inspect "lokemis/clockbox:${{ github.run_number }}" > docker-image-details.json
       - name: Upload Docker image artifact
         uses: actions/upload-artifact@v3
         with:
           name: docker-image
-          path: /var/lib/docker/image/overlay2/repositories.json
+          path: docker-image-details.json
       - name: Run Django tests
         run: |
           python manage.py test
