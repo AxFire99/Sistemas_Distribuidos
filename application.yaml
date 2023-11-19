@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/AxFire99/Sistemas_Distribuidos.git
-    targetRevision: HEAD
+    targetRevision: 'Oni67-patch-1'
     path: k8s-configuration
   destination:
     server: https://kubernetes.default.svc
