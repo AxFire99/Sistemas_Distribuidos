@@ -40,7 +40,7 @@ jobs:
           cat $HOME/.docker/config.json
           docker images
       - name: Save Docker image as artifact
-        run: docker save -o docker-image.tar "lokemis/clockbox:${{ github.run_number }}" && docker load -i docker-image.tar
+        run: docker pull "lokemis/clockbox:${{ github.run_number }}"
 
   test:
     name: Test Django Application
