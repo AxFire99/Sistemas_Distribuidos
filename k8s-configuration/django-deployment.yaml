@@ -16,7 +16,7 @@ spec:
         app: django
     spec:
       containers:
-        - image: oni672/sdproject2023:latest
+        - image: oni672/clockbox:latest
           name: django
           ports:
             - containerPort: 8000
