@@ -16,9 +16,7 @@ def select_user(request):
         form = UserSelectForm(request.POST)
         if form.is_valid():
             selected_user = form.cleaned_data['user']
-            return redirect(reverse
-                            ('send_notification', 
-                            args=[selected_user.username]))
+            return redirect(reverse('send_notification', args=[selected_user.username]))
     else:
         form = UserSelectForm()
 
@@ -31,9 +29,7 @@ def send_notification(request, username):
     from_email = 'sendernotification490@gmail.com'  # Replace with your email
     recipient_list = [user.email]
 
-    html_message = render(request, 
-                          'notifications/email_template.html', 
-                          {'user': user}).content.decode('utf-8')
+    html_message = render(request, 'notifications/email_template.html', {'user': user}).content.decode('utf-8')
 
     send_mail(subject, message, from_email, 
               recipient_list, html_message=html_message)
