@@ -78,9 +78,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Pull Docker image
-        run: docker pull "lokemis/clockbox:${{ github.run_number }}"
+        run: docker pull "oni672/clockbox:latest"
       - name: Save Docker image details
-        run: docker inspect "lokemis/clockbox:${{ github.run_number }}" > docker-image-details.json
+        run: docker inspect "oni672/clockbox:latest" > docker-image-details.json
       - name: Upload Docker image artifact
         uses: actions/upload-artifact@v3
         with:
@@ -89,3 +89,67 @@ jobs:
       - name: Run Django tests
         run: |
           python manage.py test
+
+  #Ensures that is up to code standards and style guidelines.
+  lint:
+    name: Lint Python code Ubuntu
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      - name: Run linter
+        run: flake8 .
+        
+  #Checks the percentage of code is covered by unit tests.
+  coverage:
+    name: Check code coverage Ubuntu
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install coverage
+      - name: Run coverage
+        run: |
+          python -m coverage run manage.py test
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: htmlcov
+
+  #Checks dependencies to identify vulnerabilities
+  dependency-scan:
+    name: Scan for vulnerabilities Ubuntu
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install safety
+      - name: Run dependency scan
+        run: safety check
