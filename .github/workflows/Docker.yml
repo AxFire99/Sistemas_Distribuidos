@@ -3,10 +3,11 @@ name: ci
 on:
   push:
     branches:
+      - "main"
       - "Actions-Test"
 
 jobs:
-  build:
+  build-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,37 +34,37 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest"
-      #- name: Login to Docker Hub 1
-      #  uses: docker/login-action@v2
-      #  with:
-      #    username: "${{ secrets.DOCKERHUB_USERNAME_1 }}"
-      #    password: "${{ secrets.DOCKERHUB_TOKEN_1 }}"
-      #- name: Set up Docker buildx 1
-      #  uses: docker/setup-buildx-action@v2
-      #- name: Build and push Docker image 1
-      #  uses: docker/build-push-action@v3
-      #  with:
-      #    context: .
-      #    file: ./Dockerfile
-      #    push: true
-      #    tags: "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest"
-      #- name: Login to Docker Hub 2
-      #  uses: docker/login-action@v2
-      #  with:
-      #    username: "${{ secrets.DOCKERHUB_USERNAME_2 }}"
-      #    password: "${{ secrets.DOCKERHUB_TOKEN_2 }}"
-      #- name: Set up Docker buildx 2
-      #  uses: docker/setup-buildx-action@v2
-      #- name: Build and push Docker image 2
-      #  uses: docker/build-push-action@v3
-      #  with:
-      #    context: .
-      #    file: ./Dockerfile
-      #    push: true
-      #    tags: "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest"
+      - name: Login to Docker Hub 1
+        uses: docker/login-action@v2
+        with:
+          username: "${{ secrets.DOCKERHUB_USERNAME_1 }}"
+          password: "${{ secrets.DOCKERHUB_TOKEN_1 }}"
+      - name: Set up Docker buildx 1
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push Docker image 1
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest"
+      - name: Login to Docker Hub 2
+        uses: docker/login-action@v2
+        with:
+          username: "${{ secrets.DOCKERHUB_USERNAME_2 }}"
+          password: "${{ secrets.DOCKERHUB_TOKEN_2 }}"
+      - name: Set up Docker buildx 2
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push Docker image 2
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest"
 
   test:
-    name: Test Django Application
+    name: Test Django Application Ubuntu
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -92,7 +93,7 @@ jobs:
 
   #Ensures that is up to code standards and style guidelines.
   lint:
-    name: Lint Python code
+    name: Lint Python code Ubuntu
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -111,7 +112,7 @@ jobs:
         
   #Checks the percentage of code is covered by unit tests.
   coverage:
-    name: Check code coverage
+    name: Check code coverage Ubuntu
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -137,7 +138,7 @@ jobs:
 
   #Checks dependencies to identify vulnerabilities
   dependency-scan:
-    name: Scan for vulnerabilities
+    name: Scan for vulnerabilities Ubuntu
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -156,7 +157,7 @@ jobs:
 
   #Creates documentation
   #docs:
-  #  name: Build documentation
+  #  name: Build documentation Ubuntu
   #  runs-on: ubuntu-latest
   #  steps:
   #    - name: Checkout
@@ -207,7 +208,7 @@ jobs:
       - name: Set up Docker buildx 2
         uses: docker/setup-buildx-action@v2
   test-windows:
-    name: Test Django Application
+    name: Test Django Application Windows
     runs-on: windows-latest
     needs: build-windows
     steps:
@@ -236,7 +237,7 @@ jobs:
 
   #Ensures that is up to code standards and style guidelines.
   lint-windows:
-    name: Lint Python code
+    name: Lint Python code Windows
     runs-on: windows-latest
     needs: build-windows
     steps:
@@ -255,7 +256,7 @@ jobs:
         
   #Checks the percentage of code is covered by unit tests.
   coverage-windows:
-    name: Check code coverage
+    name: Check code coverage Windows
     runs-on: windows-latest
     needs: test-windows
     steps:
@@ -281,7 +282,7 @@ jobs:
 
   #Checks dependencies to identify vulnerabilities
   dependency-scan-windows:
-    name: Scan for vulnerabilities
+    name: Scan for vulnerabilities Windows
     runs-on: windows-latest
     needs: build-windows
     steps:
@@ -300,7 +301,7 @@ jobs:
 
   #Creates documentation
   #docs:
-  #  name: Build documentation
+  #  name: Build documentation Windows
   #  runs-on: windows-latest
   #  steps:
   #    - name: Checkout
@@ -351,7 +352,7 @@ jobs:
       - name: Set up Docker buildx 2
         uses: docker/setup-buildx-action@v2
   test-mac:
-    name: Test Django Application
+    name: Test Django Application Mac
     runs-on: macos-latest
     needs: build-mac
     steps:
@@ -380,7 +381,7 @@ jobs:
 
   #Ensures that is up to code standards and style guidelines.
   lint-mac:
-    name: Lint Python code
+    name: Lint Python code mac
     runs-on: macos-latest
     needs: build-mac
     steps:
@@ -399,7 +400,7 @@ jobs:
         
   #Checks the percentage of code is covered by unit tests.
   coverage-mac:
-    name: Check code coverage
+    name: Check code coverage mac
     runs-on: macos-latest
     needs: test-mac
     steps:
@@ -425,7 +426,7 @@ jobs:
 
   #Checks dependencies to identify vulnerabilities
   dependency-scan-mac:
-    name: Scan for vulnerabilities
+    name: Scan for vulnerabilities mac
     runs-on: macos-latest
     needs: build-mac
     steps:
@@ -444,7 +445,7 @@ jobs:
 
   #Creates documentation
   #docs:
-  #  name: Build documentation
+  #  name: Build documentation mac
   #  runs-on: macos-latest
   #  steps:
   #    - name: Checkout
