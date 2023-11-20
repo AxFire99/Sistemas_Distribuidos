@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - "main"
+      - "Actions-Test"
 
 jobs:
   build:
@@ -32,35 +32,35 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:${{ github.run_number }}"
-      - name: Login to Docker Hub 1
-        uses: docker/login-action@v2
-        with:
-          username: "${{ secrets.DOCKERHUB_USERNAME_1 }}"
-          password: "${{ secrets.DOCKERHUB_TOKEN_1 }}"
-      - name: Set up Docker buildx 1
-        uses: docker/setup-buildx-action@v2
-      - name: Build and push Docker image 1
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest"
-      - name: Login to Docker Hub 2
-        uses: docker/login-action@v2
-        with:
-          username: "${{ secrets.DOCKERHUB_USERNAME_2 }}"
-          password: "${{ secrets.DOCKERHUB_TOKEN_2 }}"
-      - name: Set up Docker buildx 2
-        uses: docker/setup-buildx-action@v2
-      - name: Build and push Docker image 2
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest"
+          tags: "${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest"
+      #- name: Login to Docker Hub 1
+      #  uses: docker/login-action@v2
+      #  with:
+      #    username: "${{ secrets.DOCKERHUB_USERNAME_1 }}"
+      #    password: "${{ secrets.DOCKERHUB_TOKEN_1 }}"
+      #- name: Set up Docker buildx 1
+      #  uses: docker/setup-buildx-action@v2
+      #- name: Build and push Docker image 1
+      #  uses: docker/build-push-action@v3
+      #  with:
+      #    context: .
+      #    file: ./Dockerfile
+      #    push: true
+      #    tags: "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest"
+      #- name: Login to Docker Hub 2
+      #  uses: docker/login-action@v2
+      #  with:
+      #    username: "${{ secrets.DOCKERHUB_USERNAME_2 }}"
+      #    password: "${{ secrets.DOCKERHUB_TOKEN_2 }}"
+      #- name: Set up Docker buildx 2
+      #  uses: docker/setup-buildx-action@v2
+      #- name: Build and push Docker image 2
+      #  uses: docker/build-push-action@v3
+      #  with:
+      #    context: .
+      #    file: ./Dockerfile
+      #    push: true
+      #    tags: "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest"
 
   test:
     name: Test Django Application
@@ -89,3 +89,83 @@ jobs:
       - name: Run Django tests
         run: |
           python manage.py test
+
+  #Ensures that is up to code standards and style guidelines.
+  lint:
+    name: Lint Python code
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      - name: Run linter
+        run: flake8 .
+        
+  #Checks the percentage of code is covered by unit tests.
+  coverage:
+    name: Check code coverage
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install coverage
+      - name: Run coverage
+        run: coverage run manage.py test
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: htmlcov
+
+  #Checks dependencies to identify vulnerabilities
+  dependency-scan:
+    name: Scan for vulnerabilities
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install safety
+      - name: Run dependency scan
+        run: safety check
+
+  #Creates documentation
+  docs:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install documentation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r docs/requirements.txt
+      - name: Build documentation
+        run: sphinx-build -b html docs/ build/docs
