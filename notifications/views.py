@@ -31,8 +31,7 @@ def send_notification(request, username):
 
     html_message = render(request, 'notifications/email_template.html', {'user': user}).content.decode('utf-8')
 
-    send_mail(subject, message, from_email, 
-              recipient_list, html_message=html_message)
+    send_mail(subject, message, from_email, recipient_list, html_message=html_message)
 
     return render(request, 'notification_sent.html')
 
