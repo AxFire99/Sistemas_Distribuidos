@@ -195,7 +195,6 @@ jobs:
         uses: docker/setup-buildx-action@v2
         with:
           driver: docker-container
-          buildkitd-flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
           install: false
           use: true
           cleanup: true
@@ -334,7 +333,8 @@ jobs:
           python-version: 3.12
       - name: Install Docker
         run: |
-          brew install docker
+          brew uninstall --force docker docker-compose docker-machine
+          brew install --cask docker
           brew services start docker
       - name: Install dependencies
         run: |
