@@ -1,12 +1,17 @@
 from django.core.mail import send_mail
-#from django.shortcuts import render
-#from django.contrib.auth.models import User
-#from django.http import HttpResponse
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 # notifications/views.py
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .forms import UserSelectForm
 from django.urls import reverse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.mail import send_mail
+from .serializers import NotificationSerializer
 
 def index(request):
     return render(request, 'index.html')
@@ -46,3 +51,22 @@ def users(request):
     print(users)
     return render(request, "users.html", {'users': users})
     pass
+
+class NotificationAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = NotificationSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+
+            # Your notification logic here
+            # For example, sending an email
+            send_mail(
+                'Testing',
+                'This is a test message, If you have received this it means the testing is working.',
+                'Notification Service',
+                [email],
+                fail_silently=False,
+            )
+
+            return Response({'message': 'Notification sent successfully'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

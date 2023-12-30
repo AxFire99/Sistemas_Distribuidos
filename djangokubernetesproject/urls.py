@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from notifications.views import send_notification, users, select_user, index
+from notifications.views import send_notification, users, select_user, index, NotificationAPIView
 
 urlpatterns = [
     path("", index, name='Index'),
@@ -24,5 +24,5 @@ urlpatterns = [
     path('send-notification/', send_notification, name='send_notification'),
     path('notifications/', include('notifications.urls')),
     path('notification/', select_user, name='select_user'),
-    path('users/', users, name='users')
+    path('users/', users, name = 'users')
 ]
