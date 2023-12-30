@@ -62,7 +62,7 @@ class NotificationAPIView(APIView):
             # For example, sending an email
             send_mail(
                 'Testing',
-                'This is a test message, If you have received this it means the testing is working.',
+                'This is a test message, If you have received this it means the testing is working. :)',
                 'Notification Service',
                 [email],
                 fail_silently=False,
