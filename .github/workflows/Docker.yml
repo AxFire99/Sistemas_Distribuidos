@@ -70,19 +70,20 @@ jobs:
           push: true
           tags: "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest"
           
-  deploy:
+  deploy-argocd:
+    name: Deploy to ArgoCD
     runs-on: ubuntu-latest
+    needs: build
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'latest'  # You can specify a specific version if needed
-        installTool: true
-    - name: Apply Kubernetes configuration
-      run: |
-        kubectl apply -f path/to/application.yaml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy to ArgoCD
+        run: |
+          # Delete existing ArgoCD application (if it exists)
+          argocd app delete notificationsystem -n argocd || true
+          
+          # Apply ArgoCD Application manifest
+          kubectl apply -f root/application.yaml
   
   test:
     name: Test Django Application
