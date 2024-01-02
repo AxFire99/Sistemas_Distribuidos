@@ -25,4 +25,5 @@ urlpatterns = [
     path('notifications/', include('notifications.urls')),
     path('notification/', select_user, name='select_user'),
     path('users/', users, name='users')
+    path('', include('django_prometheus.urls')),
 ]
