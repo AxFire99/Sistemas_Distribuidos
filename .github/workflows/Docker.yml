@@ -118,7 +118,7 @@ jobs:
           chmod +x /usr/local/bin/argocd
       - name: Deploy to ArgoCD
         run: |
-          argocd app delete notificationsystem -y
+          argocd app delete notificationsystem -y --server http://10.42.0.36:8080
           kubectl apply -f ./application.yaml
 
   
