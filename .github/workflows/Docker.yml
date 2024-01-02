@@ -10,8 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        username: [ "${{ DOCKERHUB_USERNAME }}", "${{ DOCKERHUB_USERNAME_1 }}", "${{ DOCKERHUB_USERNAME_2 }}" ]
-        token: [ "${{ DOCKERHUB_TOKEN }}", "${{ DOCKERHUB_TOKEN_1 }}", "${{ DOCKERHUB_TOKEN_2 }}" ]
+        username: 
+          - DOCKERHUB_USERNAME
+          - DOCKERHUB_USERNAME_1
+          - DOCKERHUB_USERNAME_2
+        token:
+          - DOCKERHUB_TOKEN
+          - DOCKERHUB_TOKEN_1
+          - DOCKERHUB_TOKEN_2
     
     steps:
       - name: Checkout
