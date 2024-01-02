@@ -1,14 +1,16 @@
 # Sistemas_Distribuidos
 
+Steps to access and update the local notification project.
+
 1. Change django-deployment.yaml image (line 18) for your cluster (your_dockerhub_username/your_dockerhub_repo_name:latest)
 
 2. docker build -t djangokubernetesproject .
 
 3. docker run -p 80:8000 djangokubernetesproject 
 
-4. localhost:notifications/send-notification/Paulo/ (It sends to one of the team member's particular email, it needs to be changed)
+4. access localhost
 
-5. docker login
+5. docker login (if needed)
 
 6. docker tag djangokubernetesproject:latest your_dockerhub_username/your_dockerhub_repo_name:latest
 
