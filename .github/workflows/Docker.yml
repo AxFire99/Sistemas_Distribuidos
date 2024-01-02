@@ -114,7 +114,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Deploy to ArgoCD
         run: |
-          kubectl apply -f ./application.yaml --prune
+          kubectl apply -f ./application.yaml --prune --all
 
   
   test:
