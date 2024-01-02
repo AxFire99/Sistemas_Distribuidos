@@ -11,13 +11,13 @@ jobs:
     strategy:
       matrix:
         username: 
-          - DOCKERHUB_USERNAME
-          - DOCKERHUB_USERNAME_1
-          - DOCKERHUB_USERNAME_2
+          - secrets.DOCKERHUB_USERNAME
+          - secrets.DOCKERHUB_USERNAME_1
+          - secrets.DOCKERHUB_USERNAME_2
         token:
-          - DOCKERHUB_TOKEN
-          - DOCKERHUB_TOKEN_1
-          - DOCKERHUB_TOKEN_2
+          - secrets.DOCKERHUB_TOKEN
+          - secrets.DOCKERHUB_TOKEN_1
+          - secrets.DOCKERHUB_TOKEN_2
     
     steps:
       - name: Checkout
@@ -33,8 +33,8 @@ jobs:
       - name: Login to Docker Hub 1
         uses: docker/login-action@v2
         with:
-          username: "${{ secrets[matrix.username] }}"
-          password: "${{ secrets[matrix.token] }}"
+          username: "${{ matrix.username }}"
+          password: "${{ matrix.token }}"
       - name: Set up Docker buildx 1
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image 1
@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: "${{ secrets[matrix.username] }}/clockbox:latest"
+          tags: "${{ matrix.username }}/clockbox:latest"
           
   deploy-argocd:
     name: Deploy to ArgoCD
