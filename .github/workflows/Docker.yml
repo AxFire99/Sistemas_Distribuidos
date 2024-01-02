@@ -69,7 +69,21 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest"
-
+          
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        version: 'latest'  # You can specify a specific version if needed
+        installTool: true
+    - name: Apply Kubernetes configuration
+      run: |
+        kubectl apply -f path/to/application.yaml
+  
   test:
     name: Test Django Application
     runs-on: ubuntu-latest
