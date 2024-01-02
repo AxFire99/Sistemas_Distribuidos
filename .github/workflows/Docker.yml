@@ -38,6 +38,10 @@ jobs:
         with:
           username: "${{ secrets.DOCKERHUB_USERNAME_1 }}"
           password: "${{ secrets.DOCKERHUB_TOKEN_1 }}"
+      - name: Delete existing Docker image 1
+        run: |
+          docker pull "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest" || true
+          docker rmi -f "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest" || true
       - name: Set up Docker buildx 1
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image 1
@@ -52,6 +56,10 @@ jobs:
         with:
           username: "${{ secrets.DOCKERHUB_USERNAME_2 }}"
           password: "${{ secrets.DOCKERHUB_TOKEN_2 }}"
+      - name: Delete existing Docker image 2
+        run: |
+          docker pull "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest" || true
+          docker rmi -f "${{ secrets.DOCKERHUB_USERNAME_2 }}/clockbox:latest" || true
       - name: Set up Docker buildx 2
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image 2
