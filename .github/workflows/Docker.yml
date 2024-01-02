@@ -120,6 +120,9 @@ jobs:
         run: |
           sudo curl -L -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           sudo chmod +x /usr/local/bin/argocd
+
+      - name: Set Argo CD Server Address
+        run: echo "ARGOCD_SERVER=10.2.15.167" >> $GITHUB_ENV
           
       - name: Deploy to ArgoCD
         run: |
