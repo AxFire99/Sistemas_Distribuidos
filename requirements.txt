@@ -1,3 +1,4 @@
 pip>=23.3, <24
 Django>=4.2, <5.0
 djangorestframework==3.14.0
+django-prometheus==2.3.1
