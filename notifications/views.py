@@ -74,7 +74,7 @@ class NotificationAPIView(APIView):
                 payment_event_name = serializer.validated_data['payment_event_name']
                 payment_date_time = serializer.validated_data['payment_date_time']
                 subject = 'Payment Successful'
-                body = f'This is a payment notification to confirm you that your payment for {payment_event_name} was succesfully received at {payment_date_time}. \nYou will also receive a notification when it is closer to the date of the event so that you dont forget.\nWe hope you enjoy your event!'
+                body = f'This is a payment notification to confirm you that your payment for {payment_event_name} was succesfully received at {payment_date_time}. \nYou will also receive a notification when it is closer to the date of the event so that you dont forget.\nWe hope you enjoy your event!. Best Wishes'
 
             # Send the email
             send_mail(
