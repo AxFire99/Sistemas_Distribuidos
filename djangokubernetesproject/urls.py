@@ -24,6 +24,6 @@ urlpatterns = [
     path('send-notification/', send_notification, name='send_notification'),
     path('notifications/', include('notifications.urls')),
     path('notification/', select_user, name='select_user'),
-    path('users/', users, name='users')
+    path('users/', users, name='users'),
     path('', include('django_prometheus.urls')),
 ]
