@@ -45,8 +45,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup ArgoCD CLI
-        uses: maxheld83/argocd-action@v0.1.1
+      - name: Download and install argocd
+        run: |
+          wget https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -O /usr/local/bin/argocd
+          chmod +x /usr/local/bin/argocd
       - name: Deploy to ArgoCD
         run: |
           argocd app delete notificationsystem -y
