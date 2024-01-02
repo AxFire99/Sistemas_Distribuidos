@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        username: [ "${{ secrets.DOCKERHUB_USERNAME }}", "${{ secrets.DOCKERHUB_USERNAME_1 }}", "${{ secrets.DOCKERHUB_USERNAME_2 }}" ]
-        token: [ "${{ secrets.DOCKERHUB_TOKEN }}", "${{ secrets.DOCKERHUB_TOKEN_1 }}", "${{ secrets.DOCKERHUB_TOKEN_2 }}" ]
+        username: [ "${{ DOCKERHUB_USERNAME }}", "${{ DOCKERHUB_USERNAME_1 }}", "${{ DOCKERHUB_USERNAME_2 }}" ]
+        token: [ "${{ DOCKERHUB_TOKEN }}", "${{ DOCKERHUB_TOKEN_1 }}", "${{ DOCKERHUB_TOKEN_2 }}" ]
     
     steps:
       - name: Checkout
@@ -27,12 +27,8 @@ jobs:
       - name: Login to Docker Hub 1
         uses: docker/login-action@v2
         with:
-          username: "${{ matrix.username }}"
-          password: "${{ matrix.token }}"
-      - name: Delete existing Docker image 1
-        run: |
-          docker pull "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest" || true
-          docker rmi -f "${{ secrets.DOCKERHUB_USERNAME_1 }}/clockbox:latest" || true
+          username: "${{ secrets[matrix.username] }}"
+          password: "${{ secrets[matrix.token] }}"
       - name: Set up Docker buildx 1
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image 1
@@ -41,7 +37,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: "${{ matrix.username }}/clockbox:latest"
+          tags: "${{ secrets[matrix.username] }}/clockbox:latest"
           
   deploy-argocd:
     name: Deploy to ArgoCD
