@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from notifications.views import send_notification, users, select_user, index #, NotificationAPIView
-from django_prometheus.views import ExportToDjangoView
 
 urlpatterns = [
     path("", index, name='Index'),
@@ -27,5 +26,4 @@ urlpatterns = [
     path('notification/', select_user, name='select_user'),
     path('users/', users, name='users'),
     path('', include('django_prometheus.urls')),
-    path('metrics/', ExportToDjangoView.as_view(), name='export-to-django-metrics'),
 ]
